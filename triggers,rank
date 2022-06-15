@@ -1,0 +1,88 @@
+1)select 
+  case 
+    when A + B <= C or A + C <= B or B + C <= A then 'Not A Triangle'
+    when A = B and B = C then 'Equilateral'
+    when A = B or A = C or B = C then 'Isosceles'
+    when A <> B and B <> C then 'Scalene'
+  end tuple
+from TRIANGLES;
+2) select concat(name,'(',substring(occupation,1,1),')') from OCCUPATIONS
+order by name;
+select concat ('There are a total of',' ',count(occupation),' ',lower(Occupation),"s." )from OCCUPATIONS
+group by occupation 
+order by count(occupation),occupation;
+3) select count(ID) from city
+where population>100000;
+4) select sum(population) from city 
+where district ='California';
+5) select avg(population) from city
+where District='California';
+6) select round(avg(population))from city ;
+7) Select sum(population) from city
+where countrycode='JPN';
+8) select max(population)-min(population) from city;
+9) select ceil(avg(salary)-avg(replace(salary,"0",""))) from EMPLOYEES ;
+10) select max(salary*months), count(salary*months) 
+from Employee 
+where (salary*months) 
+= (select max(salary*months) from Employee);
+
+
+Practice-
+•	use university;
+show tables;
+select * FROM INSTRUCTOR;
+create trigger ucase
+before update 
+on instructor
+for each row 
+set new.name=upper(new.name);
+
+select * from instructor 
+where name='John';
+set sql_safe_updates=0;
+update instructor 
+set name ='Mithila'
+where name='Yazdi';
+select * from instructor ;
+
+update instructor 
+set name ='Abhinav'
+where name='Maya';
+select * from instructor;
+
+•	create table ins (name varchar(20),sal int);
+describe ins;
+select name salary from instructor 
+where name like 'A%';
+
+create trigger aft_upd
+after update 
+on instructor
+for each row
+insert into ins values(new.name,new.salary);
+
+update instructor
+set salary=salary+200
+where name like 'A%';
+
+select * from ins;
+truncate table ins;
+drop trigger aft_upd;
+
+
+•	select dept_name, avg_salary
+from (select dept_name, avg (salary) as avg_salary
+		from instructor
+		group by dept_name) as dept_avg
+where avg_salary > 42000;
+
+•	describe instructor;
+select name,salary,
+rank() over (	
+	order by salary desc) as Top_sal_ins 
+    from instructor;
+select name,salary,
+rank() over (	
+	order by salary desc) as Top_sal_ins 
+    from instructor;
